@@ -1,13 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import * as BooksAPI from "../js/BooksAPI";
 import Book from "../shelf_list/Book";
 import { Link } from "react-router-dom";
+
 const Search = ({ books, updateBook }) => {
   const [form, setForm] = useState("");
   const [results, setResults] = useState([]);
   const [isEmpty, setEmpty] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-  const [isShow, setShow] = useState(true);
 
   const handleChange = (e) => {
     const from = e.target.value;
@@ -17,49 +16,29 @@ const Search = ({ books, updateBook }) => {
     searchBooks(from);
   };
   const searchBooks = (answer) => {
-    console.log("++++++an: ", answer);
-    console.log("form: ", form);
     if (answer.trim() === "") {
       return;
     }
-    setLoading(true);
-    console.log("answerRemoveWhiteSpace: ", answer.replace(/\s/g, "").trim());
     BooksAPI.search(answer).then((response) => {
-      // If error -> return [], else return response
-      // console.log("response.error: ", form === "" || form === undefined);
-      console.log("response: ", response);
       if (form === "" || form === undefined) {
         setResults([]);
       }
       setEmpty(!!response.error);
-      console.log("setEmpty: ", isEmpty);
-      console.log("setBooks: ", books);
 
       // Filter books and add
       response.forEach((item) => {
         const myBook = books.filter((element) => element.id === item.id);
-        console.log("results");
-        console.log(myBook);
         if (myBook) item.shelf = myBook.shelf;
-        console.log("item");
-        console.log(item);
       });
       setResults(response);
-      console.log("====results1");
-      console.log(results);
     });
-  };
-  const showSearchPage = () => {
-    console.log("===search: ", isShow);
-    setShow(!isShow);
-    console.log("===search1: ", isShow);
   };
   return (
     <div className="search-books">
       <div className="search-books-bar">
-        <button className="close-search">
-          <Link to="/">Back to home</Link>
-        </button>
+        <Link className="close-search" to="/">
+          Back to home
+        </Link>
         <div className="search-books-input-wrapper">
           <input
             type="text"
@@ -69,24 +48,17 @@ const Search = ({ books, updateBook }) => {
           />
         </div>
       </div>
-
-      {isLoading && (
-        <div className="results-loading">
-          <h2>Loading.....</h2>
-        </div>
-      )}
       {isEmpty && (
-        <div className="no-results">
+        <div className="results-details">
           Sorry, no results were found.
           <br />
-          Your search '<b>{form}</b>' did not match any books.
-          <span className="emotion">¯\_(ツ)_/¯</span>
+          Search '<b>{form}</b>' did not match any books.
         </div>
       )}
 
       {results.length > 0 && (
         <div className="results-details">
-          <b>{results.length}</b> results found.
+          <b>Total: {results.length}</b> results found.
         </div>
       )}
       <div className="search-books-results">
@@ -98,8 +70,6 @@ const Search = ({ books, updateBook }) => {
               key={key}
               shelf={book.shelf}
               updateBook={updateBook}
-              // thumbnail={book.imageLinks.thumbnail}
-              // subTitle= {books.imageLinks.subtitle}
               className="fade bookshelf-books"
             />
           ))}

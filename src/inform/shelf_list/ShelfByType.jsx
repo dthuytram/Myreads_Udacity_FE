@@ -1,5 +1,5 @@
 import Shelf from "../shelf_list/Shelf";
-const ShelfByType = ({ books, updateBook }) => {
+const ShelfByType = ({ books}) => {
   return (
     <div className="list-books-content">
       <div>

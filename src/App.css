@@ -242,3 +242,8 @@ button:active {
   text-align: center;
   font-size: 0.8em;
 }
+
+/*  */
+.results-details{
+  margin-top: 90px;
+}

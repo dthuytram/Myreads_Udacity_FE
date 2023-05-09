@@ -1,7 +1,7 @@
 import ShelfChanger from "../list_update/ShelfChanger";
 import { Link } from "react-router-dom";
 import "../css/book.css";
-const Book = ({ data, bookId, shelf, updateBook }) => {
+const Book = ({ data, bookId, shelf }) => {
   return (
     <>
       <div key="front" className="book-content book-front">

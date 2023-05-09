@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Shelves from "./inform/shelf_list/Shelves";
 import * as BooksAPI from "./inform/js/BooksAPI";
 import Search from "./inform/shelf_search/Search";
-import Book from "./inform/shelf_list/Book";
+import BookDetail from "./inform/shelf_list/BookDetail";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -16,7 +16,6 @@ function App() {
   }, []);
 
   const updateBook = (book, shelf) => {
-    // if (shelf.trim() === "") return;
     BooksAPI.update(book, shelf).then(() => {
       book.shelf = shelf;
       setBooks((prev) => {
@@ -45,14 +44,8 @@ function App() {
             exact
             path="/book/:id"
             element={
-              <Book
-                data={books}
-                bookId={books.id}
-                key={books.id}
-                shelf={books.shelf}
+              <BookDetail
                 updateBook= {updateBook}
-                // thumbnail={books.imageLinks.thumbnail}
-                // subTitle= {books.imageLinks.subtitle}
                 className="fade bookshelf-books"
               />
             }
